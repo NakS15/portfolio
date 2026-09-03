@@ -15,7 +15,7 @@ function CompanyBadge({ company }: { company: string }) {
         alt="BMW"
         width={20}
         height={20}
-        className="h-5 w-5 shrink-0 rounded-sm border border-white/10 bg-[#000000] object-cover"
+        className="h-5 w-5 shrink-0 rounded-sm border border-white/10 bg-[#000000] object-contain"
       />
     );
   }
@@ -27,7 +27,7 @@ function CompanyBadge({ company }: { company: string }) {
         alt="IBM"
         width={20}
         height={20}
-        className="h-5 w-5 shrink-0 rounded-sm border border-blue-400/20 bg-[#0a1835] object-cover"
+        className="h-5 w-5 shrink-0 rounded-sm border border-blue-400/20 bg-transparent object-contain"
       />
     );
   }
