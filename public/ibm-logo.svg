@@ -1,22 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="100%" height="100%">
-  <g fill="#052FAD">
-    <rect x="50" y="40" width="90" height="20" />
-    <rect x="50" y="70" width="90" height="20" />
-    <rect x="50" y="100" width="90" height="20" />
-    <rect x="50" y="130" width="90" height="20" />
-    <rect x="50" y="160" width="90" height="20" />
-    <rect x="50" y="190" width="90" height="20" />
-    <rect x="50" y="220" width="90" height="20" />
-    <rect x="50" y="250" width="90" height="20" />
-    <path d="M180,40 h130 v20 h-130 z M180,70 h140 v20 h-140 z M180,100 h150 v20 h-150 z M180,130 h110 v20 h-110 z M180,160 h150 v20 h-150 z M180,190 h150 v20 h-150 z M180,220 h140 v20 h-140 z M180,250 h130 v20 h-130 z" />
-    <rect x="250" y="70" width="30" height="20" fill="#ffffff" />
-    <rect x="250" y="190" width="30" height="20" fill="#ffffff" />
-    <path d="M360,40 h70 l30,60 l30,-60 h70 v20 h-50 v220 h-30 v-160 l-35,70 h-30 l-35,-70 v160 h-30 v-220 h-50 z" />
-    <g fill="#ffffff">
-      <rect x="350" y="70" width="200" height="20" />
-      <rect x="350" y="130" width="200" height="20" />
-      <rect x="350" y="190" width="200" height="20" />
-      <rect x="350" y="250" width="200" height="20" />
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 562.5" width="100%" height="100%">
+  <defs>
+    <!-- IBM 8-bar Logo Vector Mask -->
+    <mask id="ibm-mask">
+      <!-- White background fills the mask area -->
+      <rect x="0" y="0" width="1000" height="562.5" fill="#ffffff" />
+      
+      <!-- 8 Horizontal Black Stripes to create the 8-bar effect -->
+      <!-- Bar height: 21px, Gap height: 12.75px, Stride: 33.75px -->
+      <g fill="#000000">
+        <rect x="0" y="163.75" width="1000" height="12.75" />
+        <rect x="0" y="197.50" width="1000" height="12.75" />
+        <rect x="0" y="231.25" width="1000" height="12.75" />
+        <rect x="0" y="265.00" width="1000" height="12.75" />
+        <rect x="0" y="298.75" width="1000" height="12.75" />
+        <rect x="0" y="332.50" width="1000" height="12.75" />
+        <rect x="0" y="366.25" width="1000" height="12.75" />
+      </g>
+    </mask>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="562.5" fill="#000000" />
+
+  <!-- IBM Solid Typography (Masked by 8 horizontal stripes) -->
+  <g fill="#1F70C1" mask="url(#ibm-mask)">
+    
+    <!-- Letter 'I' -->
+    <path d="M 23 142.5 L 203 142.5 L 203 412.5 L 23 412.5 Z" />
+
+    <!-- Letter 'B' -->
+    <!-- Outer 'B' shape including serifs and rounded loops -->
+    <!-- Inner counter-spaces cut out in counter-clockwise direction -->
+    <path d="
+      M 221 142.5 
+      L 458 142.5 
+      C 498 142.5 522 163 522 198 
+      C 522 219 510 238 488 248 
+      C 517 258 531 280 531 308 
+      C 531 350 500 412.5 442 412.5 
+      L 221 412.5 
+      Z 
+      
+      M 299 194 
+      L 299 249 
+      L 412 249 
+      C 428 249 438 239 438 221.5 
+      C 438 204 428 194 412 194 
+      Z 
+      
+      M 299 306 
+      L 299 361 
+      L 421 361 
+      C 439 361 450 349 450 333.5 
+      C 450 318 439 306 421 306 
+      Z
+    " fill-rule="evenodd" />
+
+    <!-- Letter 'M' -->
+    <path d="
+      M 556 142.5 
+      L 679 142.5 
+      L 748 300 
+      L 817 142.5 
+      L 940 142.5 
+      L 940 412.5 
+      L 865 412.5 
+      L 865 240 
+      L 781 412.5 
+      L 715 412.5 
+      L 631 240 
+      L 631 412.5 
+      L 556 412.5 
+      Z
+    " />
+    
   </g>
 </svg>
