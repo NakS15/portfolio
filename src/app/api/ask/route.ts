@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { bioContext, fallbackAnswers } from "@/lib/bio";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 // The Anthropic SDK needs the Node runtime (not edge).
 export const runtime = "nodejs";
@@ -9,40 +10,6 @@ export const dynamic = "force-dynamic";
 const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || process.env.AI_MODEL || "openai/gpt-4o-mini";
 const ANTHROPIC_MODEL = process.env.AI_MODEL || "claude-3-5-haiku-latest";
 
-// ------------------------------------------------------------------
-// Simple in-memory rate limiter. Good enough for a single-instance
-// portfolio deployment. Resets on cold start / redeploy, which is fine
-// here since the goal is just to blunt bursts of abuse, not be perfect.
-// ------------------------------------------------------------------
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 8; // per IP per window
-const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(ip: string): { ok: boolean; retryAfterSec?: number } {
-  const now = Date.now();
-  const entry = rateLimitStore.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return { ok: true };
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return { ok: false, retryAfterSec: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-
-  entry.count += 1;
-  return { ok: true };
-}
-
-// Opportunistically prune old entries so the map doesn't grow unbounded.
-function pruneRateLimitStore() {
-  const now = Date.now();
-  for (const [key, value] of rateLimitStore) {
-    if (now > value.resetAt) rateLimitStore.delete(key);
-  }
-}
-
 function getClientIp(req: Request): string {
   const forwardedFor = req.headers.get("x-forwarded-for");
   if (forwardedFor) return forwardedFor.split(",")[0].trim();
@@ -50,6 +17,7 @@ function getClientIp(req: Request): string {
   if (realIp) return realIp;
   return "unknown";
 }
+
 
 /**
  * Only allow requests that plausibly originate from this site's own pages
@@ -199,8 +167,7 @@ export async function POST(req: Request) {
   }
 
   const ip = getClientIp(req);
-  pruneRateLimitStore();
-  const rateLimit = checkRateLimit(ip);
+  const rateLimit = await checkRateLimit(ip);
   if (!rateLimit.ok) {
     return NextResponse.json(
       { error: "Too many requests. Please slow down and try again shortly." },
