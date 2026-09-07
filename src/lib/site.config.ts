@@ -38,6 +38,12 @@ export type Project = {
   featured?: boolean;
   /** Optional external link (repo / case study). "" hides the link. */
   href?: string;
+  /**
+   * Optional status pill shown instead of a link arrow when there's no
+   * href. Use this so an empty href reads as an intentional choice
+   * (NDA'd client work, or in-progress) rather than a broken/dead card.
+   */
+  status?: "private" | "in-progress";
 };
 
 export type Cert = {
@@ -159,6 +165,7 @@ export const site = {
       tags: ["Java", "Spring Boot", "MySQL", "Kafka"],
       featured: true,
       href: "",
+      status: "private",
     },
     {
       title: "Telecom and healthcare modernization",
@@ -166,6 +173,7 @@ export const site = {
         "Enterprise integrations and backend delivery for AT&T and Horizon BCBS, focused on reliability, API flows, and operational resilience.",
       tags: ["Java", "Node.js", "PostgreSQL", "Integration"],
       href: "",
+      status: "private",
     },
     {
       title: "BMW carbon footprint platform",
@@ -173,13 +181,14 @@ export const site = {
         "Microservices for sustainability and carbon accounting workflows, including backend APIs, deployment automation, and event-driven processing.",
       tags: ["Quarkus", "Angular", "Kubernetes", "Kafka"],
       href: "",
+      status: "private",
     },
     {
       title: "RAG knowledge engine",
       blurb:
         "Retrieval-augmented generation over PostgreSQL + pgvector, grounded on the Anthropic API. Chunking, hybrid retrieval, and citation-backed answers.",
       tags: ["Python", "FastAPI", "pgvector", "Anthropic API"],
-      href: "",
+      href: "https://github.com/NakS15/RAG-Knowledge-Engine",
     },
     {
       title: "MCP tool server",
@@ -187,13 +196,15 @@ export const site = {
         "A working Model Context Protocol server that exposes typed tools to LLM clients, so models can act against real systems safely.",
       tags: ["TypeScript", "MCP", "Node.js"],
       href: "",
+      status: "in-progress",
     },
+
     {
       title: "Saree marketplace MVP",
       blurb:
         "A side project inspired by a marketplace model where sellers can list sarees and buyers can browse, compare, and purchase them online.",
       tags: ["React", "Node.js", "MongoDB", "Full-stack"],
-      href: "",
+      href: "https://github.com/NakS15/saree",
     },
   ] as Project[],
 

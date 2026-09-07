@@ -78,7 +78,7 @@ export default function Stack() {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={`${l.slug}-${i}`}
-              src={`https://cdn.simpleicons.org/${l.slug}/ffffff`}
+              src={`/logos/${l.slug}.svg`}
               alt={l.label}
               title={l.label}
               loading="lazy"

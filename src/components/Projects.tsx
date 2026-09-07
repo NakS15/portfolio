@@ -61,6 +61,16 @@ function SpotlightCard({
             >
               <ArrowUpRight weight="bold" className="h-5 w-5" />
             </a>
+          ) : project.status ? (
+            <span
+              className={`shrink-0 whitespace-nowrap rounded-full border px-2.5 py-0.5 font-mono text-[11px] ${
+                project.status === "private"
+                  ? "border-white/10 text-zinc-500"
+                  : "border-accent/30 text-accent-strong"
+              }`}
+            >
+              {project.status === "private" ? "Private codebase" : "In progress"}
+            </span>
           ) : null}
         </div>
 
