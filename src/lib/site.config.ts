@@ -59,9 +59,10 @@ export const site = {
     "Full-stack engineer with 4.2 years building production-grade systems for BMW, HDFC, and IBM. I work across backend engineering, AI integration, and platform operations.",
 
   email: "nakulbukkawar07@gmail.com",
-  // Your number is in the config but NOT rendered anywhere by default
-  // (public pages attract spam). Wire it into Connect.tsx if you want it shown.
-  phone: "[REDACTED PHONE]",
+  // Phone number intentionally omitted from source. Public repos + committed
+  // git history are not a safe place for a personal phone number. If you
+  // want to show it somewhere, read it from process.env.CONTACT_PHONE
+  // (set in an untracked .env.local) inside the component that needs it.
 
   // Drop a square headshot at /public/headshot.jpg and set this to "/headshot.jpg".
   // Left blank, the site shows a clean "NB" monogram instead.

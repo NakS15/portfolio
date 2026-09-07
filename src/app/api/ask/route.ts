@@ -9,6 +9,78 @@ export const dynamic = "force-dynamic";
 const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || process.env.AI_MODEL || "openai/gpt-4o-mini";
 const ANTHROPIC_MODEL = process.env.AI_MODEL || "claude-3-5-haiku-latest";
 
+// ------------------------------------------------------------------
+// Simple in-memory rate limiter. Good enough for a single-instance
+// portfolio deployment. Resets on cold start / redeploy, which is fine
+// here since the goal is just to blunt bursts of abuse, not be perfect.
+// ------------------------------------------------------------------
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 8; // per IP per window
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): { ok: boolean; retryAfterSec?: number } {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return { ok: true };
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { ok: false, retryAfterSec: Math.ceil((entry.resetAt - now) / 1000) };
+  }
+
+  entry.count += 1;
+  return { ok: true };
+}
+
+// Opportunistically prune old entries so the map doesn't grow unbounded.
+function pruneRateLimitStore() {
+  const now = Date.now();
+  for (const [key, value] of rateLimitStore) {
+    if (now > value.resetAt) rateLimitStore.delete(key);
+  }
+}
+
+function getClientIp(req: Request): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) return realIp;
+  return "unknown";
+}
+
+/**
+ * Only allow requests that plausibly originate from this site's own pages
+ * (fetch() from the browser sends Origin on cross-site and same-site
+ * requests in most modern browsers). This is a soft guard, not a hard
+ * security boundary, but it stops trivial third-party scripts from riding
+ * on this endpoint and burning API quota.
+ */
+function isAllowedOrigin(req: Request): boolean {
+  const origin = req.headers.get("origin");
+  // Same-origin requests (e.g. curl, server-to-server, some browsers on
+  // same-origin navigations) may omit Origin entirely - allow those through.
+  if (!origin) return true;
+
+  const allowed = new Set(
+    [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined, "http://localhost:3000"].filter(
+      Boolean
+    ) as string[]
+  );
+
+  try {
+    const originHost = new URL(origin).host;
+    for (const allowedUrl of allowed) {
+      if (new URL(allowedUrl).host === originHost) return true;
+    }
+  } catch {
+    return false;
+  }
+  return false;
+}
+
 const FORBIDDEN_PATTERNS = [
   /\b(sex|sexual|nude|porn|explicit|adult|fetish|lesbian|gay|xxx|erotic)\b/i,
   /\b(hate|racist|slur|nazi|terrorist|bomb|kill|murder|weapon|assault)\b/i,
@@ -122,6 +194,20 @@ function fallback(question: string): string {
 }
 
 export async function POST(req: Request) {
+  if (!isAllowedOrigin(req)) {
+    return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+  }
+
+  const ip = getClientIp(req);
+  pruneRateLimitStore();
+  const rateLimit = checkRateLimit(ip);
+  if (!rateLimit.ok) {
+    return NextResponse.json(
+      { error: "Too many requests. Please slow down and try again shortly." },
+      { status: 429, headers: { "Retry-After": String(rateLimit.retryAfterSec ?? 60) } }
+    );
+  }
+
   let question = "";
   try {
     const body = await req.json();
