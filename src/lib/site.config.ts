@@ -195,8 +195,7 @@ export const site = {
       blurb:
         "A working Model Context Protocol server that exposes typed tools to LLM clients, so models can act against real systems safely.",
       tags: ["TypeScript", "MCP", "Node.js"],
-      href: "",
-      status: "in-progress",
+      href: "https://github.com/NakS15/MCP-tool-server",
     },
 
     {
