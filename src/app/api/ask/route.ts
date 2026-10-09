@@ -261,7 +261,8 @@ export async function POST(req: Request) {
       });
 
       if (!res.ok) {
-        throw new Error(`OpenRouter error: ${res.status}`);
+        const body = await res.text().catch(() => "");
+        throw new Error(`OpenRouter error: ${res.status} ${body.slice(0, 300)}`);
       }
 
       const data = await res.json();
@@ -292,8 +293,11 @@ export async function POST(req: Request) {
         source: answer ? "ai" : "fallback",
       });
     }
-  } catch {
-    // Never break the demo: degrade to the canned answer.
+  } catch (err) {
+    // Never break the demo: degrade to the canned answer, but log why so
+    // real failures (bad key, wrong model, no credits) are visible in
+    // server logs instead of silently masquerading as "working".
+    console.error("/api/ask AI provider failed:", err instanceof Error ? err.message : err);
     return NextResponse.json({ answer: fallback(question), source: "fallback" });
   }
 
