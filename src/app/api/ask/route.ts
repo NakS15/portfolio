@@ -32,19 +32,31 @@ function isAllowedOrigin(req: Request): boolean {
   // same-origin navigations) may omit Origin entirely - allow those through.
   if (!origin) return true;
 
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host;
+  } catch {
+    return false;
+  }
+
+  // The request's own Host header is the real source of truth for "this
+  // site" - it matches regardless of which hostname/port/domain is used
+  // (localhost, 127.0.0.1, a custom domain, a Vercel preview URL, etc.).
+  const host = req.headers.get("host");
+  if (host && originHost === host) return true;
+
+  // Fallback allowlist for deployments where a proxy changes the Host header.
   const allowed = new Set(
-    [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined, "http://localhost:3000"].filter(
+    [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined].filter(
       Boolean
     ) as string[]
   );
-
-  try {
-    const originHost = new URL(origin).host;
-    for (const allowedUrl of allowed) {
+  for (const allowedUrl of allowed) {
+    try {
       if (new URL(allowedUrl).host === originHost) return true;
+    } catch {
+      continue;
     }
-  } catch {
-    return false;
   }
   return false;
 }
