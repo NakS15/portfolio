@@ -108,7 +108,8 @@ The portfolio showcases real production and personal work:
   pgvector, grounded on the Anthropic API.
 - **MCP tool server**: A working Model Context Protocol server exposing
   typed tools to LLM clients.
-- **Saree marketplace MVP**: Full-stack marketplace side project (React,
+- **Saree marketplace MVP**: Full-stack multi-vendor marketplace with
+  separate customer/vendor/admin roles and real Razorpay checkout (React,
   Node.js, MongoDB).
 
 ---

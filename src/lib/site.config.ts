@@ -241,10 +241,15 @@ export const site = {
     {
       title: "Saree marketplace MVP",
       blurb:
-        "A side project inspired by a marketplace model where sellers can list sarees and buyers can browse, compare, and purchase them online.",
-      tags: ["React", "Node.js", "MongoDB", "Full-stack"],
+        "A full-stack multi-vendor marketplace: sellers run their own storefronts, buyers browse and checkout with real payments, not just a CRUD demo.",
+      tags: ["React", "Node.js", "MongoDB", "Razorpay"],
       href: "https://github.com/NakS15/saree",
       context: "Personal project",
+      highlights: [
+        "Multi-vendor architecture with separate customer, vendor, and admin roles and dashboards.",
+        "Real checkout via Razorpay with webhook-based payment confirmation.",
+        "JWT + Google OAuth auth, Cloudinary image uploads, and email/SMS order notifications.",
+      ],
     },
   ] as Project[],
 
