@@ -17,6 +17,21 @@ export default function About() {
               Backend depth, <span className="text-accent">GenAI</span> range.
             </h2>
           </Reveal>
+
+          <Reveal delay={0.03}>
+            <div className="mt-5 flex max-w-sm items-center gap-3">
+              <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-xs text-zinc-300">
+                Backend
+              </span>
+              <div className="relative h-px flex-1 overflow-hidden bg-white/10">
+                <div className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-accent to-transparent animate-beam" />
+              </div>
+              <span className="shrink-0 whitespace-nowrap rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent-strong">
+                GenAI
+              </span>
+            </div>
+          </Reveal>
+
           <Reveal delay={0.05}>
             <div className="mt-6 space-y-4 text-pretty text-base leading-relaxed text-zinc-400 md:text-lg">
               <p>

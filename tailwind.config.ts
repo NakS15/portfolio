@@ -31,11 +31,16 @@ const config: Config = {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
+        beam: {
+          "0%": { transform: "translateX(-120%)" },
+          "100%": { transform: "translateX(320%)" },
+        },
       },
       animation: {
         marquee: "marquee 32s linear infinite",
         floaty: "floaty 7s ease-in-out infinite",
         shimmer: "shimmer 1.6s infinite",
+        beam: "beam 2.4s ease-in-out infinite",
       },
     },
   },
