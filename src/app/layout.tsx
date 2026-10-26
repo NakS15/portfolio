@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site.config";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${mono.variable}`}>
       <body className="min-h-[100dvh] bg-zinc-950 font-sans text-zinc-100 antialiased">
+        <SmoothScroll />
         {children}
       </body>
     </html>

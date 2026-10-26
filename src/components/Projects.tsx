@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import { site } from "@/lib/site.config";
 
@@ -15,21 +16,38 @@ function SpotlightCard({
   featured?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const hasLink = Boolean(project.href && project.href.length > 0);
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    el.style.setProperty("--mx", `${mx}px`);
+    el.style.setProperty("--my", `${my}px`);
+
+    if (reduce) return;
+    const rotateY = ((mx / r.width) - 0.5) * 10;
+    const rotateX = (0.5 - my / r.height) * 10;
+    el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+  }
+
+  function onLeave() {
+    const el = ref.current;
+    if (el) el.style.transform = "";
   }
 
   return (
     <div
       ref={ref}
       onMouseMove={onMove}
-      className={`group relative h-full overflow-hidden rounded-2xl border p-6 transition-transform duration-300 hover:-translate-y-1 ${
+      onMouseLeave={onLeave}
+      style={{ transformStyle: "preserve-3d" }}
+      className={`group relative h-full overflow-hidden rounded-2xl border p-6 transition-transform duration-300 ${
+        reduce ? "hover:-translate-y-1" : "ease-out"
+      } ${
         featured
           ? "border-accent/25 bg-gradient-to-br from-accent/[0.08] to-transparent"
           : "border-white/10 bg-white/[0.02]"
@@ -116,7 +134,10 @@ export default function Projects() {
         </h2>
       </Reveal>
 
-      <div className="mt-12 grid gap-4 md:grid-cols-6">
+      <div
+        className="mt-12 grid gap-4 md:grid-cols-6"
+        style={{ perspective: "1200px" }}
+      >
         {site.projects.map((project, i) => (
           <Reveal
             key={project.title}
