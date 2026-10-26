@@ -35,12 +35,18 @@ const config: Config = {
           "0%": { transform: "translateX(-120%)" },
           "100%": { transform: "translateX(320%)" },
         },
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": { transform: "rotate(215deg) translateX(-500px)", opacity: "0" },
+        },
       },
       animation: {
         marquee: "marquee 32s linear infinite",
         floaty: "floaty 7s ease-in-out infinite",
         shimmer: "shimmer 1.6s infinite",
         beam: "beam 2.4s ease-in-out infinite",
+        meteor: "meteor 3s linear infinite",
       },
     },
   },

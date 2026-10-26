@@ -2,6 +2,7 @@
 
 import { SealCheck, ArrowUpRight } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
+import Meteors from "./Meteors";
 import { site } from "@/lib/site.config";
 
 const credly = site.socials.find((s) => s.key === "credly");
@@ -12,7 +13,8 @@ export default function Certs() {
       id="certs"
       className="relative mx-auto max-w-container px-6 py-24 md:py-32"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <Meteors />
+      <div className="relative flex flex-wrap items-end justify-between gap-4">
         <Reveal>
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
             Certified.
