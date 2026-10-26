@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "./Reveal";
+import CountUp from "./CountUp";
 import { site } from "@/lib/site.config";
 
 export default function About() {
@@ -62,7 +63,7 @@ export default function About() {
                   className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
                 >
                   <div className="font-mono text-2xl font-bold text-accent">
-                    {s.value}
+                    <CountUp value={s.value} />
                   </div>
                   <div className="mt-2 text-sm leading-snug text-zinc-400">
                     {s.label}

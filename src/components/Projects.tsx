@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import { site } from "@/lib/site.config";
 
@@ -122,7 +122,18 @@ const spanPattern = [
   "md:col-span-3",
 ];
 
+// Deterministic per-card starting offsets so cards look scattered pre-scroll
+// and settle into the grid, without a client/server hydration mismatch.
+const scatterSeeds = [
+  { rotate: -6, x: -16, y: 20 },
+  { rotate: 5, x: 18, y: -12 },
+  { rotate: -4, x: 12, y: 16 },
+  { rotate: 7, x: -14, y: -18 },
+];
+
 export default function Projects() {
+  const reduce = useReducedMotion();
+
   return (
     <section
       id="work"
@@ -138,15 +149,29 @@ export default function Projects() {
         className="mt-12 grid gap-4 md:grid-cols-6"
         style={{ perspective: "1200px" }}
       >
-        {site.projects.map((project, i) => (
-          <Reveal
-            key={project.title}
-            delay={i * 0.06}
-            className={spanPattern[i % spanPattern.length]}
-          >
-            <SpotlightCard project={project} featured={i === 0} />
-          </Reveal>
-        ))}
+        {site.projects.map((project, i) => {
+          const seed = scatterSeeds[i % scatterSeeds.length];
+          return (
+            <motion.div
+              key={project.title}
+              className={spanPattern[i % spanPattern.length]}
+              initial={
+                reduce
+                  ? false
+                  : { opacity: 0, rotate: seed.rotate, x: seed.x, y: seed.y }
+              }
+              whileInView={{ opacity: 1, rotate: 0, x: 0, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{
+                duration: 0.75,
+                delay: i * 0.07,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              <SpotlightCard project={project} featured={i === 0} />
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );

@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Reveal from "./Reveal";
 import { site } from "@/lib/site.config";
 
@@ -45,6 +47,14 @@ function CompanyBadge({ company }: { company: string }) {
 }
 
 export default function Experience() {
+  const reduce = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ["start 0.8", "end 0.6"],
+  });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
     <section
       id="experience"
@@ -56,7 +66,14 @@ export default function Experience() {
         </h2>
       </Reveal>
 
-      <div className="mt-14 max-w-3xl">
+      <div ref={trackRef} className="relative mt-14 max-w-3xl">
+        {!reduce ? (
+          <motion.div
+            aria-hidden="true"
+            className="absolute left-0 top-0 w-px origin-top bg-accent"
+            style={{ height: "100%", scaleY: lineScale }}
+          />
+        ) : null}
         {site.experience.map((job, i) => (
           <Reveal key={job.company} delay={i * 0.05}>
             <div className="relative border-l border-white/10 pb-12 pl-8 last:pb-0">
