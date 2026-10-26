@@ -131,7 +131,7 @@ export const site = {
   stack: [
     { group: "Languages", items: ["Java", "Python", "TypeScript", "JavaScript", "Bash"] },
     { group: "Backend", items: ["Quarkus", "Spring Boot", "Node.js", "FastAPI"] },
-    { group: "Frontend", items: ["Angular", "RxJS / NgRx", "React"] },
+    { group: "Frontend", items: ["Angular", "RxJS / NgRx", "React", "Flutter", "FlutterFlow", "Thymeleaf", "JavaFX"] },
     { group: "Data & Messaging", items: ["PostgreSQL", "pgvector", "MongoDB", "MySQL", "Kafka", "RabbitMQ"] },
     { group: "Cloud & DevOps", items: ["AWS", "GCP", "Azure", "Docker", "Kubernetes", "GitHub Actions", "GitLab CI", "Jenkins"] },
     { group: "GenAI & ML", items: ["RAG", "Anthropic API", "MCP", "LangGraph", "Prompt engineering", "Pandas / NumPy"] },

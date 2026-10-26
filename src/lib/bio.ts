@@ -16,7 +16,7 @@ Facts about Nakul:
 - Currently a Full Stack Developer at BMW TechWorks India (Pune), since June 2025, working on the CO2MOS / Product Carbon Footprint sustainability platform.
 - Previously at IBM (Pune), June 2022 to May 2025, delivering enterprise software for banking, telecom, and healthcare clients.
 - At IBM he built the HDFC Bank FASTAG backend handling 2M+ daily transactions, and delivered work for AT&T and Horizon BCBS. He also built Pandas/NumPy feature pipelines for a production demand-forecasting model (Bestseller India / Fabric.ai).
-- Core stack: Java, Python, TypeScript, JavaScript, Bash. Frameworks: Quarkus, Spring Boot, Node.js, FastAPI, Angular (RxJS/NgRx), React.
+- Core stack: Java, Python, TypeScript, JavaScript, Bash. Frameworks: Quarkus, Spring Boot, Node.js, FastAPI, Angular (RxJS/NgRx), React, Flutter, FlutterFlow, Thymeleaf, JavaFX.
 - Data and messaging: PostgreSQL, pgvector, MongoDB, MySQL, Kafka, RabbitMQ. Cloud: AWS, GCP, Azure (AWS and GCP certified). DevOps: Docker, Kubernetes, GitHub Actions, GitLab CI, Jenkins.
 - GenAI work he is actively building: retrieval-augmented generation (RAG) on PostgreSQL/pgvector with the Anthropic API, a working Model Context Protocol (MCP) server, LangGraph agent workflows, and prompt engineering.
 - Education: B.E. in Electronics and Communication (Minor in CS), RCOEM Nagpur, 2022, CGPA 8.35.
