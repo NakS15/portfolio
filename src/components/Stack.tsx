@@ -1,26 +1,27 @@
 "use client";
 
 import Reveal from "./Reveal";
+import OrbitingCircles from "./OrbitingCircles";
 import { site } from "@/lib/site.config";
 
-const marqueeLogos = [
+const innerOrbit = [
   { slug: "react", label: "React" },
   { slug: "typescript", label: "TypeScript" },
   { slug: "python", label: "Python" },
-  { slug: "javascript", label: "JavaScript" },
   { slug: "nodedotjs", label: "Node.js" },
+  { slug: "docker", label: "Docker" },
+];
+
+const outerOrbit = [
+  { slug: "javascript", label: "JavaScript" },
   { slug: "angular", label: "Angular" },
   { slug: "postgresql", label: "PostgreSQL" },
   { slug: "mongodb", label: "MongoDB" },
-  { slug: "docker", label: "Docker" },
   { slug: "kubernetes", label: "Kubernetes" },
   { slug: "git", label: "Git" },
   { slug: "gitlab", label: "GitLab" },
   { slug: "jenkins", label: "Jenkins" },
 ];
-
-const fade =
-  "linear-gradient(to right, transparent, black 8%, black 92%, transparent)";
 
 export default function Stack() {
   return (
@@ -69,27 +70,15 @@ export default function Stack() {
         })}
       </div>
 
-      <div
-        className="relative mt-14 overflow-hidden py-2"
-        style={{ maskImage: fade, WebkitMaskImage: fade }}
-      >
-        <div className="flex w-max animate-marquee items-center gap-14">
-          {[...marqueeLogos, ...marqueeLogos].map((l, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={`${l.slug}-${i}`}
-              src={`/logos/${l.slug}.svg`}
-              alt={l.label}
-              title={l.label}
-              loading="lazy"
-              className="h-7 w-7 shrink-0 opacity-50 transition-opacity hover:opacity-100"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-          ))}
+      <Reveal delay={0.1}>
+        <div className="relative mx-auto mt-16 h-72 max-w-md sm:h-80">
+          <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-accent/30 bg-accent/10 font-mono text-sm font-bold text-accent-strong shadow-lg shadow-accent/10">
+            {site.initials}
+          </div>
+          <OrbitingCircles items={innerOrbit} radius={85} duration={18} />
+          <OrbitingCircles items={outerOrbit} radius={145} duration={28} reverse />
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -31,11 +31,22 @@ const config: Config = {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
+        orbit: {
+          from: {
+            transform:
+              "rotate(0deg) translateX(calc(var(--radius) * 1px)) rotate(0deg)",
+          },
+          to: {
+            transform:
+              "rotate(360deg) translateX(calc(var(--radius) * 1px)) rotate(-360deg)",
+          },
+        },
       },
       animation: {
         marquee: "marquee 32s linear infinite",
         floaty: "floaty 7s ease-in-out infinite",
         shimmer: "shimmer 1.6s infinite",
+        orbit: "orbit calc(var(--duration, 20) * 1s) linear infinite",
       },
     },
   },
