@@ -44,6 +44,10 @@ export type Project = {
    * (NDA'd client work, or in-progress) rather than a broken/dead card.
    */
   status?: "private" | "in-progress";
+  /** Optional one-line origin shown in the project detail modal. */
+  context?: string;
+  /** Optional extra depth (from resume bullets) shown only in the modal. */
+  highlights?: string[];
 };
 
 export type Cert = {
@@ -175,6 +179,12 @@ export const site = {
       featured: true,
       href: "",
       status: "private",
+      context: "Built at IBM, 2022-2025",
+      highlights: [
+        "Migrated a legacy C# monolith to Java/Quarkus microservices serving 2M+ daily transactions with zero downtime.",
+        "Cut response times by 50% and tripled throughput through a PostgreSQL schema redesign and load testing.",
+        "Added RabbitMQ async messaging and circuit breakers, reaching 99.95% uptime.",
+      ],
     },
     {
       title: "Telecom and healthcare modernization",
@@ -183,6 +193,12 @@ export const site = {
       tags: ["Java", "Node.js", "PostgreSQL", "Integration"],
       href: "",
       status: "private",
+      context: "Built at IBM, 2022-2025",
+      highlights: [
+        "Automated manual QA for AT&T's Common Test Platform, raising test coverage from 45% to 85%.",
+        "Hardened Horizon BCBS's healthcare APIs with caching, load balancing, and Splunk-based real-time monitoring.",
+        "Built scalable Spring Boot, Kafka, and MongoDB services to absorb traffic growth without new infrastructure.",
+      ],
     },
     {
       title: "BMW carbon footprint platform",
@@ -191,6 +207,12 @@ export const site = {
       tags: ["Quarkus", "Angular", "Kubernetes", "Kafka"],
       href: "",
       status: "private",
+      context: "Built at BMW TechWorks India, 2025-present",
+      highlights: [
+        "Designed a weighted-similarity matching algorithm that replaced manual SME lookups for component-to-sustainability mapping.",
+        "Eliminated N+1 query patterns with bulk-fetch endpoints, cutting per-vehicle load times.",
+        "Prototyped an Anthropic-API matching pipeline with a deterministic fallback, plus a two-stage human-in-the-loop review workflow.",
+      ],
     },
     {
       title: "RAG knowledge engine",
@@ -198,6 +220,11 @@ export const site = {
         "Retrieval-augmented generation over PostgreSQL + pgvector, grounded on the Anthropic API. Chunking, hybrid retrieval, and citation-backed answers.",
       tags: ["Python", "FastAPI", "pgvector", "Anthropic API"],
       href: "https://github.com/NakS15/RAG-Knowledge-Engine",
+      context: "Personal project",
+      highlights: [
+        "Implemented chunking, embedding, and similarity search on PostgreSQL + pgvector.",
+        "Grounded responses in retrieved context end to end via the Anthropic API.",
+      ],
     },
     {
       title: "MCP tool server",
@@ -205,6 +232,10 @@ export const site = {
         "A working Model Context Protocol server that exposes typed tools to LLM clients, so models can act against real systems safely.",
       tags: ["TypeScript", "MCP", "Node.js"],
       href: "https://github.com/NakS15/MCP-tool-server",
+      context: "Personal project",
+      highlights: [
+        "Built a functional MCP server exposing a custom tool to an LLM client, following the MCP spec, running end to end locally.",
+      ],
     },
 
     {
@@ -213,6 +244,7 @@ export const site = {
         "A side project inspired by a marketplace model where sellers can list sarees and buyers can browse, compare, and purchase them online.",
       tags: ["React", "Node.js", "MongoDB", "Full-stack"],
       href: "https://github.com/NakS15/saree",
+      context: "Personal project",
     },
   ] as Project[],
 

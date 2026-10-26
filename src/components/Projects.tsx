@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
+import ProjectModal from "./ProjectModal";
 import { site } from "@/lib/site.config";
 
 type Project = (typeof site.projects)[number];
@@ -11,9 +12,11 @@ type Project = (typeof site.projects)[number];
 function SpotlightCard({
   project,
   featured = false,
+  onOpen,
 }: {
   project: Project;
   featured?: boolean;
+  onOpen: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -44,8 +47,18 @@ function SpotlightCard({
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${project.title}`}
       style={{ transformStyle: "preserve-3d" }}
-      className={`group relative h-full overflow-hidden rounded-2xl border p-6 transition-transform duration-300 ${
+      className={`group relative h-full cursor-pointer overflow-hidden rounded-2xl border p-6 transition-transform duration-300 ${
         reduce ? "hover:-translate-y-1" : "ease-out"
       } ${
         featured
@@ -74,7 +87,8 @@ function SpotlightCard({
               href={project.href}
               target="_blank"
               rel="noreferrer"
-              aria-label={`Open ${project.title}`}
+              onClick={(e) => e.stopPropagation()}
+              aria-label={`Open ${project.title} repository`}
               className="shrink-0 text-zinc-500 transition-colors hover:text-accent-strong"
             >
               <ArrowUpRight weight="bold" className="h-5 w-5" />
@@ -133,6 +147,7 @@ const scatterSeeds = [
 
 export default function Projects() {
   const reduce = useReducedMotion();
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   return (
     <section
@@ -168,11 +183,20 @@ export default function Projects() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              <SpotlightCard project={project} featured={i === 0} />
+              <SpotlightCard
+                project={project}
+                featured={i === 0}
+                onOpen={() => setActiveProject(project)}
+              />
             </motion.div>
           );
         })}
       </div>
+
+      <ProjectModal
+        project={activeProject}
+        onClose={() => setActiveProject(null)}
+      />
     </section>
   );
 }
