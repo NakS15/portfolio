@@ -36,6 +36,11 @@ export default function CountUp({ value }: { value: string }) {
 
     const target = parseFloat(match[1]);
     const decimals = match[1].includes(".") ? match[1].split(".")[1].length : 0;
+    // Animate with at least one decimal of precision so small whole-number
+    // targets (e.g. "2M+") still look like they're counting, not jumping
+    // between 2-3 integer frames. The exact original string is used on the
+    // final frame so the resting value always matches the source data.
+    const animDecimals = Math.max(decimals, 1);
     const suffix = value.slice(match[1].length);
     const duration = 1800;
     const start = performance.now();
@@ -43,9 +48,13 @@ export default function CountUp({ value }: { value: string }) {
 
     function tick(now: number) {
       const t = Math.min(1, (now - start) / duration);
+      if (t >= 1) {
+        setDisplay(value);
+        return;
+      }
       const eased = 1 - Math.pow(1 - t, 3);
-      setDisplay(`${(target * eased).toFixed(decimals)}${suffix}`);
-      if (t < 1) raf = requestAnimationFrame(tick);
+      setDisplay(`${(target * eased).toFixed(animDecimals)}${suffix}`);
+      raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
