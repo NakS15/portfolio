@@ -11,7 +11,7 @@ import {
 import type { Icon } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
 import MagneticButton from "./MagneticButton";
-import Globe, { GLOBE_MARKERS } from "./Globe";
+import Globe from "./Globe";
 import { site } from "@/lib/site.config";
 
 const iconFor: Record<string, Icon> = {
@@ -59,7 +59,7 @@ export default function Connect() {
 
             <Reveal delay={0.12}>
               <p className="mt-4 max-w-md font-mono text-xs text-zinc-500">
-                Open to teams in {GLOBE_MARKERS.map((m) => m.name).join(" · ")}
+                Open to remote roles across India, Europe, and North America
               </p>
             </Reveal>
 
