@@ -1,97 +1,224 @@
-# Nakul Bukkawar — Portfolio
+# Nakul Bukkawar — Full-Stack & GenAI Engineer Portfolio
 
-An interactive developer portfolio built with Next.js (App Router), TypeScript,
-Tailwind CSS, and Motion. It features a cursor-reactive canvas hero, magnetic
-buttons, scroll reveals, and a live "Ask my AI" demo backed by the Anthropic API
-(with a graceful offline fallback).
+<div align="center">
 
-## Quick start
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Motion](https://img.shields.io/badge/Motion-Framer_Motion-black?style=for-the-badge&logo=framer&logoColor=white)](https://motion.dev/)
+[![WebGL](https://img.shields.io/badge/Graphics-WebGL_(cobe)-black?style=for-the-badge&logo=webgl&logoColor=white)](https://github.com/shuding/cobe)
+
+<p align="center">
+  <strong>An interactive developer portfolio with a cursor-reactive hero, a live AI assistant grounded on my real background, and a hand-built interactive WebGL globe.</strong>
+</p>
+
+<p align="center">
+  Built by <strong><a href="https://github.com/NakS15">Nakul Bukkawar</a></strong> — Full-Stack & GenAI Engineer.
+</p>
+
+</div>
+
+---
+
+## ✦ Overview
+
+This is my personal portfolio: a single-page Next.js site that pairs clean
+backend-engineer presentation with hands-on GenAI and motion-design work. It
+doubles as a live demo of an AI assistant grounded on my real background
+(not a generic chatbot), and every interactive effect on the page — the
+smooth scroll, the 3D tilt cards, the drawing timeline, the WebGL globe — is
+hand-built rather than pulled from a template.
+
+---
+
+## ✦ Key Features & Interactive Architecture
+
+### 1. 🧲 Cursor-Reactive Hero
+- Canvas-based constellation field that drifts and links to nearby points,
+  leaning toward the cursor.
+- Magnetic buttons that pull toward the pointer on hover.
+- Renders a single static frame under `prefers-reduced-motion`.
+
+### 2. 🪄 Ask My AI
+- A live, server-grounded assistant (`src/app/api/ask/route.ts`) that answers
+  questions about my real experience, backed by the Anthropic API /
+  OpenRouter.
+- Origin-matching, rate limiting, and a keyword content gate guard the
+  endpoint; a deterministic fallback keeps the demo working with zero API
+  key configured.
+
+### 3. 🪟 Interactive Project Detail Modal
+- Glassmorphic modal with backdrop blur and a spring entrance, surfacing
+  resume-sourced highlights that don't fit on the card.
+- Keyboard-accessible (focus management, Escape to close) and scroll-locked
+  while open.
+
+### 4. 🌍 Interactive WebGL Globe
+- Autorotating, drag-to-spin globe ([`cobe`](https://github.com/shuding/cobe))
+  marking my home base in India alongside tech hubs across Europe and
+  beyond.
+- Physics-based release damping via Framer Motion's spring.
+
+### 5. 🪞 3D Tilt Project Cards
+- Mouse-driven `perspective` / `rotateX` / `rotateY` tilt with a radial
+  spotlight following the cursor.
+- Cards scatter on scroll-in and settle into place, replaying every time
+  they re-enter view.
+
+### 6. 📈 Scroll-Linked Timeline & Counters
+- The career timeline draws itself in as you scroll, tied directly to
+  scroll progress.
+- Stats count up from zero on every scroll-in, with fractional precision so
+  even whole-number stats read as genuinely counting rather than jumping.
+
+### 7. ☄️ Smooth Scroll & Ambient Motion
+- Site-wide inertia scrolling via [Lenis](https://github.com/darkroomengineering/lenis).
+- A 3D-tilted logo marquee, an animated "Backend ↔ GenAI" beam, and a subtle
+  meteor accent round out the motion language — all respecting
+  reduced-motion preferences.
+
+---
+
+## ✦ Tech Stack
+
+| Domain | Technology | Description |
+|---|---|---|
+| **Framework** | [Next.js 14](https://nextjs.org/) (App Router) | Server-rendered React with a server-only `/api/ask` route |
+| **Language** | TypeScript | End-to-end type safety |
+| **Styling** | Tailwind CSS 3 | Utility-first styling, single accent color defined once |
+| **Motion** | [Framer Motion](https://www.framer.com/motion/) + [Lenis](https://github.com/darkroomengineering/lenis) | Scroll-linked animation, inertia smooth scroll |
+| **3D / WebGL** | [cobe](https://github.com/shuding/cobe) | Lightweight WebGL globe, no Three.js required |
+| **AI** | Anthropic SDK + OpenRouter | Grounded Q&A over a hand-written bio, with a deterministic fallback |
+| **Rate limiting** | Upstash Redis (optional) | Distributed limiter with an in-memory fallback |
+| **Icons** | [Phosphor Icons](https://phosphoricons.com/) | Consistent icon set across the UI |
+
+---
+
+## ✦ Featured Projects
+
+The portfolio showcases real production and personal work:
+
+- **FASTAG transactions platform** (IBM): High-throughput payment backend for
+  HDFC Bank, 2M+ daily transactions.
+- **Telecom and healthcare modernization** (IBM): Enterprise integrations for
+  AT&T and Horizon BCBS.
+- **BMW carbon footprint platform** (BMW TechWorks India): Microservices for
+  sustainability and carbon accounting.
+- **RAG knowledge engine**: Retrieval-augmented generation over PostgreSQL +
+  pgvector, grounded on the Anthropic API.
+- **MCP tool server**: A working Model Context Protocol server exposing
+  typed tools to LLM clients.
+- **Saree marketplace MVP**: Full-stack marketplace side project (React,
+  Node.js, MongoDB).
+
+---
+
+## ✦ Project Structure
 
 ```bash
+portfolio/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx            # Single-page layout, section composition
+│   │   ├── layout.tsx          # Root layout, fonts, SmoothScroll mount
+│   │   └── api/ask/route.ts    # Server-only AI endpoint
+│   ├── components/              # One component per section/effect
+│   └── lib/
+│       ├── site.config.ts      # Single source of truth for all content
+│       ├── bio.ts              # AI grounding context + fallback answers
+│       └── rateLimit.ts        # Upstash-backed / in-memory rate limiter
+├── public/                      # Resumes, logos, static assets
+└── tailwind.config.ts            # Theme tokens + custom keyframes
+```
+
+---
+
+## ✦ Getting Started Locally
+
+### Prerequisites
+- Node.js 18+
+
+```bash
+# Clone the repository
+git clone https://github.com/NakS15/portfolio.git
+cd portfolio
+
+# Install dependencies
 npm install
+
+# Run the dev server
 npm run dev
 ```
 
-Then open http://localhost:3000.
+Then open `http://localhost:3000`.
 
-To build for production:
+### Production build
 
 ```bash
 npm run build
 npm start
 ```
 
-## Make it yours (one file)
+---
 
-Almost everything personal lives in **`src/lib/site.config.ts`** — edit that one
-file to change your name, role, headline, stats, tech stack, experience,
-projects, certifications, and social links.
+## ✦ Make It Yours (One File)
 
-Fields I couldn't fill for you are marked with `// TODO`. Before you ship, fill in:
+Almost everything personal lives in **`src/lib/site.config.ts`** — name,
+role, headline, stats, stack, experience, projects, certifications, and
+social links all live there. The AI grounding text lives in
+**`src/lib/bio.ts`**.
 
-| Where | What to set |
-|-------|-------------|
-| `socials` → `github` | Your real GitHub URL and handle (currently `your-github-handle`) |
-| `socials` → `credly` | Your Credly profile URL (currently `your-credly-id`) |
-| `certs` | The **exact** names of your AWS and GCP certifications + their Credly links |
-| `resumes` | Drop the two PDFs in `/public` (see below) — filenames must match |
-| `photoUrl` | Optional: add `/public/headshot.jpg` and set this to `"/headshot.jpg"` |
+---
 
-The AI grounding text lives in **`src/lib/bio.ts`** — update it whenever your
-background changes, and tweak the suggested questions and offline fallback answers.
+## ✦ Environment Variables
 
-## Resume PDFs & assets
+The "Ask my AI" demo calls a **server** route; your API key never touches
+the browser. Copy `.env.example` to `.env.local` to enable real AI answers
+(optional — without a key, the demo runs on curated fallback answers so it
+never looks broken):
 
-`/public` currently holds two **placeholder** PDFs so the download buttons work
-right away. Replace them with your real resumes, keeping the same filenames:
+```bash
+ANTHROPIC_API_KEY=
+AI_MODEL=claude-3-5-haiku-latest
 
-- `public/Nakul-Bukkawar-GenAI.pdf`
-- `public/Nakul-Bukkawar-FullStack.pdf`
+# Optional: distributed rate limiting via Upstash Redis
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+```
 
-(Or rename them and update `site.resumes` to match.)
+OpenRouter (`OPENROUTER_API_KEY` / `OPENROUTER_MODEL`) is also supported and
+is tried first if set.
 
-## The "Ask my AI" demo
+---
 
-The chat widget calls a **server** route at `src/app/api/ask/route.ts`. Your API
-key never touches the browser.
+## ✦ Deployment
 
-1. Copy `.env.example` to `.env.local`.
-2. Add your key:
+- **Vercel** (recommended): import the repo at
+  [vercel.com/new](https://vercel.com/new) — framework preset Next.js is
+  auto-detected.
+- Add environment variables under Project → Settings → Environment
+  Variables, then deploy.
+- Works on any Node host that supports Next.js
+  (`npm run build && npm start`).
 
-   ```bash
-   ANTHROPIC_API_KEY=sk-ant-...
-   AI_MODEL=claude-3-5-haiku-latest
-   ```
+---
 
-3. Restart `npm run dev`.
+## ✦ Connect & Socials
 
-**No key? It still works.** Without `ANTHROPIC_API_KEY`, the route returns
-curated fallback answers (see `fallbackAnswers` in `src/lib/bio.ts`), so the demo
-never looks broken on a static or keyless deploy. The same fallback kicks in if
-an API call ever fails.
+- **Portfolio**: [nakulbukkawar-portfolio.vercel.app](https://nakulbukkawar-portfolio.vercel.app/)
+- **GitHub**: [@NakS15](https://github.com/NakS15)
+- **LinkedIn**: [in/nakul-bukkawar](https://www.linkedin.com/in/nakul-bukkawar-115a89204/)
+- **Credly**: [AWS + GCP badges](https://www.credly.com/users/nakul-bukkawar)
+- **Email**: [nakulbukkawar07@gmail.com](mailto:nakulbukkawar07@gmail.com)
 
-## Deploy (Vercel — recommended)
+---
 
-1. Push this folder to a GitHub repo.
-2. Import it at [vercel.com/new](https://vercel.com/new). Framework preset:
-   **Next.js** (auto-detected).
-3. In Project → Settings → Environment Variables, add `ANTHROPIC_API_KEY`
-   (and optionally `AI_MODEL`). Leave them out to run in fallback mode.
-4. Deploy. Custom domains attach under Project → Domains.
+## ✦ Notes
 
-Works on any Node host that supports Next.js (Netlify, Render, a Node server via
-`npm run build && npm start`, etc.).
-
-## Notes
-
-- **Accessibility & motion:** every animation respects `prefers-reduced-motion`;
-  the canvas renders a single static frame and transitions collapse to instant.
-- **Brand logos** in the stack marquee load from the Simple Icons CDN and hide
-  themselves if a slug is missing, so a wrong slug never leaves a broken image.
-- **Single accent color** is defined in `tailwind.config.ts` (`colors.accent`).
-  Change it there and it updates everywhere.
-
-## Tech
-
-Next.js 14 · React 18 · TypeScript · Tailwind CSS 3 · Motion (Framer Motion) ·
-Phosphor Icons · Anthropic SDK
+- **Accessibility & motion**: every animation respects
+  `prefers-reduced-motion`; the canvas renders a single static frame and
+  transitions collapse to instant.
+- **Brand logos** in the stack marquee hide themselves automatically if a
+  logo file is missing, so a broken slug never leaves a broken image.
+- **Single accent color** is defined in `tailwind.config.ts`
+  (`colors.accent`) — change it there and it updates everywhere.
