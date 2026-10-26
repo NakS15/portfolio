@@ -11,6 +11,7 @@ import {
 import type { Icon } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
 import MagneticButton from "./MagneticButton";
+import Globe, { GLOBE_MARKERS } from "./Globe";
 import { site } from "@/lib/site.config";
 
 const iconFor: Record<string, Icon> = {
@@ -26,8 +27,12 @@ export default function Connect() {
       id="connect"
       className="relative mx-auto max-w-container px-6 py-24 md:py-32"
     >
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-accent/[0.07] via-white/[0.02] to-transparent p-8 md:p-14">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-accent/[0.07] via-white/[0.02] to-transparent p-8 md:p-14">
+        <div className="pointer-events-none absolute -right-32 top-1/2 hidden w-[480px] -translate-y-1/2 opacity-60 md:block">
+          <Globe />
+        </div>
+
+        <div className="relative grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">
             <Reveal>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-sm text-zinc-300">
@@ -49,6 +54,12 @@ export default function Connect() {
               <p className="mt-5 max-w-md text-pretty leading-relaxed text-zinc-400">
                 Hiring for a GenAI, backend, or full-stack role? I&apos;m open to
                 remote work. Grab a resume or reach out on any channel.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.12}>
+              <p className="mt-4 max-w-md font-mono text-xs text-zinc-500">
+                Open to teams in {GLOBE_MARKERS.map((m) => m.name).join(" · ")}
               </p>
             </Reveal>
 
