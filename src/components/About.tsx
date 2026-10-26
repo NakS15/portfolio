@@ -20,10 +20,11 @@ export default function About() {
           <Reveal delay={0.05}>
             <div className="mt-6 space-y-4 text-pretty text-base leading-relaxed text-zinc-400 md:text-lg">
               <p>
-                I&apos;m a full-stack engineer from Nagpur with 4.2+ years building
-                production systems that have to stay resilient, scalable, and
-                correct under real-world pressure. Most of my work sits in Java,
-                Python, and TypeScript services that power business-critical flows.
+                I&apos;m a full-stack engineer from Nagpur with {site.stats[0].value}{" "}
+                years building production systems that have to stay resilient,
+                scalable, and correct under real-world pressure. Most of my work
+                sits in Java, Python, and TypeScript services that power
+                business-critical flows.
               </p>
               <p>
                 Lately I&apos;ve been building the GenAI layer on top of that: RAG

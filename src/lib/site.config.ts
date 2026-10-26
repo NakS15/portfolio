@@ -52,6 +52,15 @@ export type Cert = {
   href: string;
 };
 
+// Career start: IBM, June 2022. Computed on each build/request instead of a
+// hardcoded string so "years of experience" never silently goes stale.
+const CAREER_START = new Date(2022, 5, 1);
+function yearsOfExperience(): string {
+  const months =
+    (Date.now() - CAREER_START.getTime()) / (1000 * 60 * 60 * 24 * 30.4369);
+  return (months / 12).toFixed(1);
+}
+
 export const site = {
   name: "Nakul Bukkawar",
   initials: "NB",
@@ -62,7 +71,7 @@ export const site = {
   // Hero copy. Words wrapped in <accent> render in the accent colour.
   headline: ["I build reliable backend systems", "and the <accent>GenAI</accent> layer on top."],
   subhead:
-    "Full-stack engineer with 4.2 years building production-grade systems for BMW, HDFC, and IBM. I work across backend engineering, AI integration, and platform operations.",
+    `Full-stack engineer with ${yearsOfExperience()} years building production-grade systems for BMW, HDFC, and IBM. I work across backend engineering, AI integration, and platform operations.`,
 
   email: "nakulbukkawar07@gmail.com",
   // Phone number intentionally omitted from source. Public repos + committed
@@ -109,7 +118,7 @@ export const site = {
 
   // Short, real, non-inflated numbers for the About strip.
   stats: [
-    { value: "4.2+", label: "years shipping production software" },
+    { value: `${yearsOfExperience()}+`, label: "years shipping production software" },
     { value: "2M+", label: "daily transactions served (FASTAG)" },
     { value: "AWS + GCP", label: "cloud certified" },
     { value: "RAG · MCP · Agents", label: "GenAI, in production" },

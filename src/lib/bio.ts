@@ -3,12 +3,16 @@
  * system prompt from the SERVER route (app/api/ask/route.ts), so it never
  * ships to the browser. Keep it factual and first-person-about-Nakul.
  */
+import { site } from "./site.config";
+
+const YEARS = site.stats[0].value;
+
 export const bioContext = `
 You are the AI assistant embedded on Nakul Bukkawar's portfolio website.
 You answer questions from recruiters, hiring managers, and engineers about Nakul.
 
 Facts about Nakul:
-- Full-stack and backend software engineer with 4.2+ years of experience. Based in Nagpur, India. Open to remote and hybrid roles.
+- Full-stack and backend software engineer with ${YEARS} years of experience. Based in Nagpur, India. Open to remote and hybrid roles.
 - Currently a Full Stack Developer at BMW TechWorks India (Pune), since June 2025, working on the CO2MOS / Product Carbon Footprint sustainability platform.
 - Previously at IBM (Pune), June 2022 to May 2025, delivering enterprise software for banking, telecom, and healthcare clients.
 - At IBM he built the HDFC Bank FASTAG backend handling 2M+ daily transactions, and delivered work for AT&T and Horizon BCBS. He also built Pandas/NumPy feature pipelines for a production demand-forecasting model (Bestseller India / Fabric.ai).
@@ -46,7 +50,7 @@ export const fallbackAnswers: { match: RegExp; answer: string }[] = [
   {
     match: /backend|scale|system|java|spring|quarkus|kafka|architecture/i,
     answer:
-      "On the backend, Nakul has 4.2+ years across Java, Quarkus, Spring Boot, Node.js, and FastAPI. At IBM he built the HDFC Bank FASTAG backend handling 2M+ daily transactions, and he now builds microservices on BMW's carbon-footprint platform with Kafka and Kubernetes.",
+      `On the backend, Nakul has ${YEARS} years across Java, Quarkus, Spring Boot, Node.js, and FastAPI. At IBM he built the HDFC Bank FASTAG backend handling 2M+ daily transactions, and he now builds microservices on BMW's carbon-footprint platform with Kafka and Kubernetes.`,
   },
   {
     match: /ibm|hdfc|fastag|at&t|att|horizon|bank/i,

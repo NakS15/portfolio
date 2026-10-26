@@ -11,23 +11,28 @@ function zeroedDisplay(value: string) {
 }
 
 /**
- * Counts up to a numeric-prefixed stat (e.g. "4.2+", "2M+") once it scrolls
- * into view. Values without a leading number (e.g. "AWS + GCP") render as-is.
- * Starts visibly at 0 (never flashes the final value) and runs slowly enough
- * to be noticeable even when the stat is already near the viewport on load.
+ * Counts up to a numeric-prefixed stat (e.g. "4.2+", "2M+") every time it
+ * scrolls into view, resetting to 0 when it scrolls out so it replays on
+ * re-entry. Values without a leading number (e.g. "AWS + GCP") render as-is.
+ * Runs slowly enough to be noticeable even on a quick scroll past.
  */
 export default function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { amount: 0.6 });
   const reduce = useReducedMotion();
-  const started = useRef(false);
   const [display, setDisplay] = useState(() => zeroedDisplay(value));
 
   useEffect(() => {
-    if (started.current) return;
     const match = value.match(/^(\d+(?:\.\d+)?)/);
-    if (!inView || !match) return;
-    started.current = true;
+    if (!match) {
+      setDisplay(value);
+      return;
+    }
+
+    if (!inView) {
+      setDisplay(zeroedDisplay(value));
+      return;
+    }
 
     if (reduce) {
       setDisplay(value);
